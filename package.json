@@ -1,0 +1,19 @@
+{
+  "name": "nostalgorithm",
+  "version": "0.0.0",
+  "description": "remember the functions you call",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "mike chevett",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "~1.13.0",
+    "chai": "~1.8.0"
+  },
+  "dependencies": {
+    "traverse": "~0.6.6"
+  }
+}
