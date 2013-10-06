@@ -4,7 +4,7 @@
   "description": "remember the functions you call",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --reporter spec $(find . -path ./node_modules -prune -o -name '*.spec.js' -print)" 
   },
   "repository": "",
   "author": "mike chevett",
