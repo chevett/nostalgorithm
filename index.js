@@ -24,26 +24,59 @@ function _getParentObjectFromPath(o, path){
 	return o;
 }
 
-var _decorate = function(obj){
-	obj.nostalgorithm = {
+function _replaceFunctions(o, fn){
+	traverse(o).forEach(function(p){
+		if (typeof p !== 'function') return;
+
+		var self = this;
+
+		fn.call(this, p, function(newFunc){
+			var parent = _getParentObjectFromPath(o, self.path);
+
+			if (self.key){
+				parent[self.key] = newFunc;
+			} else { // when p===obj is the root, i.e. when the root is a function
+				o = newFunc;
+				o.nostalgorithm = p.nostalgorithm;
+			}
+		});
+	});
+
+	return o;
+}
+
+var _watch = function(obj){
+	obj.nostalgorithm = obj.nostalgorithm || {
 		calls: []
 	};
 
-	traverse(obj).forEach(function(p){
-		if (typeof p !== 'function') return;
-
-		var parent = _getParentObjectFromPath(obj, this.path);
+	obj = _replaceFunctions(obj, function(p, doReplace){
 		var newFunc =  _intercept(obj, this.path.join('.'), p);
-		
-		if (this.key){
-			parent[this.key] = newFunc;
-		} else { // when p===obj is the root, i.e. when the root is a function
-			obj = newFunc;
-			obj.nostalgorithm = p.nostalgorithm;
-		}
+		newFunc.__nostalgorithmfunc = p;
+
+		doReplace(newFunc);
 	});
 
 	return obj;
 };
 
-module.exports = _decorate;
+var _ignore = function(obj){
+	if (!obj) return obj;
+
+	var n = obj.nostalgorithm;
+
+	obj = _replaceFunctions(obj, function(p, doReplace){
+		if (!p.__nostalgorithmfunc) return;
+
+		doReplace(p.__nostalgorithmfunc);
+	});
+
+	obj.nostalgorithm = n;
+
+	return obj;
+};
+
+module.exports = {
+	watch: _watch,
+	ignore: _ignore
+};
