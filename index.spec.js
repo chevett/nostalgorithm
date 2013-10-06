@@ -1,4 +1,4 @@
-var Nostalgorithm = require('./index.js');
+var nostalgorithm = require('./index.js');
 var expect = require('chai').expect;
 
 describe('nostalgorithm', function(){
@@ -7,26 +7,26 @@ describe('nostalgorithm', function(){
 			meth: function(){}
 		};
 
-		var n = new Nostalgorithm(myObj);
+		nostalgorithm(myObj);
 
-		expect(n.meth).to.be.a('function');
+		expect(myObj.meth).to.be.a('function');
 	});
 	it('should expose the original object', function(){
 		var myObj = {};
 
-		var n = new Nostalgorithm(myObj);
-		expect(n.nostalgorithm.instance).to.be.equal(myObj);
+		nostalgorithm(myObj);
+		expect(myObj.nostalgorithm.instance).to.be.equal(myObj);
 	});
 	it('should track function name', function(){
 		var myObj = {
 			meth: function(){}
 		};
 
-		var n = new Nostalgorithm(myObj);
-		n.meth();
+		nostalgorithm(myObj);
+		myObj.meth();
 
-		expect(n.nostalgorithm.calls).to.have.length.of(1);
-		var callInfo = n.nostalgorithm.calls[0];
+		expect(myObj.nostalgorithm.calls).to.have.length.of(1);
+		var callInfo = myObj.nostalgorithm.calls[0];
 		expect(callInfo.name).to.be.equal('meth');
 	});
 	it('should track nested function names', function(){
@@ -39,11 +39,11 @@ describe('nostalgorithm', function(){
 			meth: function(){}
 		};
 
-		var n = new Nostalgorithm(myObj);
-		n.bart.simpson.doTheBartMan();
+		nostalgorithm(myObj);
+		myObj.bart.simpson.doTheBartMan();
 
-		expect(n.nostalgorithm.calls).to.have.length.of(1);
-		var callInfo = n.nostalgorithm.calls[0];
+		expect(myObj.nostalgorithm.calls).to.have.length.of(1);
+		var callInfo = myObj.nostalgorithm.calls[0];
 		expect(callInfo.name).to.be.equal('bart.simpson.doTheBartMan');
 	});
 	it('should track function arguments', function(){
@@ -51,11 +51,11 @@ describe('nostalgorithm', function(){
 			meth: function(){}
 		};
 
-		var n = new Nostalgorithm(myObj);
-		n.meth('hi', 'goodbye');
+		nostalgorithm(myObj);
+		myObj.meth('hi', 'goodbye');
 
-		expect(n.nostalgorithm.calls).to.have.length.of(1);
-		var callInfo = n.nostalgorithm.calls[0];
+		expect(myObj.nostalgorithm.calls).to.have.length.of(1);
+		var callInfo = myObj.nostalgorithm.calls[0];
 		expect(callInfo.arguments).to.have.members(['hi', 'goodbye']);
 	});
 	it('should track return value', function(){
@@ -63,11 +63,11 @@ describe('nostalgorithm', function(){
 			meth: function(){return 'nah-nah-nah';}
 		};
 
-		var n = new Nostalgorithm(myObj);
-		n.meth();
+		nostalgorithm(myObj);
+		myObj.meth();
 
-		expect(n.nostalgorithm.calls).to.have.length.of(1);
-		var callInfo = n.nostalgorithm.calls[0];
+		expect(myObj.nostalgorithm.calls).to.have.length.of(1);
+		var callInfo = myObj.nostalgorithm.calls[0];
 		expect(callInfo.value).to.be.equal('nah-nah-nah');
 	});
 	it('should be able to access properties', function(){
@@ -76,7 +76,7 @@ describe('nostalgorithm', function(){
 			prop: 5
 		};
 
-		var n = new Nostalgorithm(myObj);
-		expect(n.prop).to.be.equal(5);
+		nostalgorithm(myObj);
+		expect(myObj.prop).to.be.equal(5);
 	});
 });

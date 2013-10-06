@@ -24,10 +24,8 @@ function _getParentObjectFromPath(o, path){
 	return o;
 }
 
-var Nostalgorithm = function(obj){
-	var self = Object.create(obj);
-
-	self.nostalgorithm = {
+var _decorate = function(obj){
+	obj.nostalgorithm = {
 		instance: obj,
 		calls: []
 	};
@@ -35,11 +33,11 @@ var Nostalgorithm = function(obj){
 	traverse(obj).forEach(function(p){
 		if (typeof p !== 'function') return;
 
-		var parent = _getParentObjectFromPath(self, this.path);
-		parent[this.key] = _intercept(self, this.path.join('.'), p);
+		var parent = _getParentObjectFromPath(obj, this.path);
+		parent[this.key] = _intercept(obj, this.path.join('.'), p);
 	});
 
-	return self;
+	return obj;
 };
 
-module.exports = Nostalgorithm;
+module.exports = _decorate;
