@@ -26,7 +26,6 @@ function _getParentObjectFromPath(o, path){
 
 var _decorate = function(obj){
 	obj.nostalgorithm = {
-		instance: obj,
 		calls: []
 	};
 
@@ -34,7 +33,14 @@ var _decorate = function(obj){
 		if (typeof p !== 'function') return;
 
 		var parent = _getParentObjectFromPath(obj, this.path);
-		parent[this.key] = _intercept(obj, this.path.join('.'), p);
+		var newFunc =  _intercept(obj, this.path.join('.'), p);
+		
+		if (this.key){
+			parent[this.key] = newFunc;
+		} else { // when p===obj is the root, i.e. when the root is a function
+			obj = newFunc;
+			obj.nostalgorithm = p.nostalgorithm;
+		}
 	});
 
 	return obj;

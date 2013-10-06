@@ -11,12 +11,6 @@ describe('nostalgorithm', function(){
 
 		expect(myObj.meth).to.be.a('function');
 	});
-	it('should expose the original object', function(){
-		var myObj = {};
-
-		nostalgorithm(myObj);
-		expect(myObj.nostalgorithm.instance).to.be.equal(myObj);
-	});
 	it('should track function name', function(){
 		var myObj = {
 			meth: function(){}
@@ -78,5 +72,15 @@ describe('nostalgorithm', function(){
 
 		nostalgorithm(myObj);
 		expect(myObj.prop).to.be.equal(5);
+	});
+	it('should work on only a function', function(){
+		var myFunc = function(){
+		};
+
+		myFunc = nostalgorithm(myFunc);
+
+		myFunc();
+		expect(myFunc.nostalgorithm).to.be.ok;
+		expect(myFunc.nostalgorithm.calls).to.have.length.of(1);
 	});
 });
