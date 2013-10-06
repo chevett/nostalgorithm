@@ -16,6 +16,14 @@ var _intercept = function(self, name, fn){
 	};
 };
 
+function _getParentObjectFromPath(o, path){
+	for (var i = 0; i<path.length-1; i++){
+		o = o[path[i]];
+	}
+
+	return o;
+}
+
 var Nostalgorithm = function(obj){
 	var self = Object.create(obj);
 
@@ -27,8 +35,8 @@ var Nostalgorithm = function(obj){
 	traverse(obj).forEach(function(p){
 		if (typeof p !== 'function') return;
 
-		self[this.key] = _intercept(self, this.key, p);
-
+		var parent = _getParentObjectFromPath(self, this.path);
+		parent[this.key] = _intercept(self, this.path.join('.'), p);
 	});
 
 	return self;

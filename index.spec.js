@@ -29,6 +29,23 @@ describe('nostalgorithm', function(){
 		var callInfo = n.nostalgorithm.calls[0];
 		expect(callInfo.name).to.be.equal('meth');
 	});
+	it('should track nested function names', function(){
+		var myObj = {
+			bart:{
+				simpson: {
+					doTheBartMan: function(){}
+				}
+			},
+			meth: function(){}
+		};
+
+		var n = new Nostalgorithm(myObj);
+		n.bart.simpson.doTheBartMan();
+
+		expect(n.nostalgorithm.calls).to.have.length.of(1);
+		var callInfo = n.nostalgorithm.calls[0];
+		expect(callInfo.name).to.be.equal('bart.simpson.doTheBartMan');
+	});
 	it('should track function arguments', function(){
 		var myObj = {
 			meth: function(){}
