@@ -1,5 +1,6 @@
 var nostalgorithm = require('./index.js');
 var expect = require('chai').expect;
+var q = require('q');
 
 describe('nostalgorithm', function(){
 	it('should be expose methods from original object', function(){
@@ -106,5 +107,28 @@ describe('nostalgorithm', function(){
 
 		myObj.meth();
 		expect(myObj.nostalgorithm.calls).to.have.length.of(2);
+	});
+
+	it('should work on methods that return promises', function(done){
+		var myObj = {
+			method: function(){
+				var d = q.defer();
+
+				setTimeout(function(){
+					d.resolve(666);
+				}, 500);
+
+				return d.promise;
+			}
+		};
+
+		myObj = nostalgorithm.watch(myObj);
+		var promise = myObj.method();
+
+		promise.done(function(){
+			expect(myObj.nostalgorithm.calls).to.have.length.of(1);
+			expect(myObj.nostalgorithm.calls[0].value).to.be.equal(666);
+			done();
+		});
 	});
 });

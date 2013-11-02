@@ -1,6 +1,13 @@
 var traverse = require('traverse');
 var _slice = Array.prototype.slice;
 
+
+var _isPromise = function(v){
+	if (v && v.then) return true; // i don't know if there is a right way to do this. halp!
+	
+	return false;
+};
+
 var _intercept = function(self, name, fn){
 	return function(){
 		var callInfo = {
@@ -9,6 +16,12 @@ var _intercept = function(self, name, fn){
 		};
 
 		var result = callInfo.value = fn.apply(self, arguments);
+
+		if (_isPromise(result)){
+			result.done(function(v){
+				result = callInfo.value = v;
+			});
+		}
 
 		self.nostalgorithm.calls.push(callInfo);
 

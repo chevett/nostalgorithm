@@ -4,14 +4,15 @@
   "description": "remember the functions you call",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec $(find . -path ./node_modules -prune -o -name '*.spec.js' -print)" 
+    "test": "mocha --reporter spec $(find . -path ./node_modules -prune -o -name '*.spec.js' -print)"
   },
   "repository": "",
   "author": "mike chevett",
   "license": "MIT",
   "devDependencies": {
     "mocha": "~1.13.0",
-    "chai": "~1.8.0"
+    "chai": "~1.8.0",
+    "q": "~0.9.7"
   },
   "dependencies": {
     "traverse": "~0.6.6"
