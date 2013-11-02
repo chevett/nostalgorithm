@@ -17,7 +17,7 @@ examples
 	n.watch(o);
 
 	o.myMethodOne();
-	o.myMethodTwo();
+	o.myMethodTwo(4);
 
 	console.log(o.nostalgorithm.calls); => [
   		{name: 'myMethodOne', arguments: [], value: 5 },
