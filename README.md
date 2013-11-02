@@ -20,7 +20,7 @@ examples
 	o.myMethodTwo();
 
 	console.log(o.nostalgorithm.calls); => [
-  		{name: 'myMethodTwo', arguments: [], value: 5 },
+  		{name: 'myMethodOne', arguments: [], value: 5 },
   		{name: 'myMethodTwo, arguments: [4], value: 9 }
 	] 
 
