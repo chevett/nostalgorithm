@@ -8,24 +8,24 @@ create an audit trail of every method call
 
 examples
 ========
-var n = require('nostalgorithm');
-var o = {
-  myMethodOne: function(){ return 5; },
-  myMethodTwo: function(x){ return 5 + x; }
-};
+	var n = require('nostalgorithm');
+	var o = {
+  		myMethodOne: function(){ return 5; },
+  		myMethodTwo: function(x){ return 5 + x; }
+	};
 
-n.watch(o);
+	n.watch(o);
 
-o.myMethodOne();
-o.myMethodTwo();
+	o.myMethodOne();
+	o.myMethodTwo();
 
-console.log(o.nostalgorithm.calls); => [
-  {name: 'myMethodTwo', arguments: [], value: 5 },
-  {name: 'myMethodTwo, arguments: [4], value: 9 }
-] 
+	console.log(o.nostalgorithm.calls); => [
+  		{name: 'myMethodTwo', arguments: [], value: 5 },
+  		{name: 'myMethodTwo, arguments: [4], value: 9 }
+	] 
 
-n.ignore(o);
+	n.ignore(o);
 
-o.myMethodOne();
+	o.myMethodOne();
 
-// o.nostalgorithm.calls is unchanged because we called ignore
+	// o.nostalgorithm.calls is unchanged because we called ignore
