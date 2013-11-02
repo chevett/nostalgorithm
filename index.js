@@ -3,7 +3,7 @@ var _slice = Array.prototype.slice;
 
 
 var _isPromise = function(v){
-	if (v && v.then) return true; // i don't know if there is a right way to do this. halp!
+	if (v && typeof v.then === 'function') return true; // i don't know if there is a right way to do this. halp!
 	
 	return false;
 };
