@@ -34,3 +34,20 @@ examples
 	o.myMethodOne();
 
 	// o.nostalgorithm.calls is unchanged because we called ignore
+	
+how long did a method take to execute?
+-----------------
+	var n = require('nostalgorithm');
+	var o = {
+  		myMethodOne: function(){ return 5; },
+	};
+
+	n.watch(o);
+	n.before(o, function(d){ d.start = new Date(); });
+	n.after(o, function(d){ 
+		d.end = new Date();
+		d.msg = date.name + ' took ' + (d.end - d.start) 'ms';
+	o.myMethodOne();
+
+
+	console.log(o.nostalgorithm.calls[0].msg); // prints 'myMethodOne took 5ms'
