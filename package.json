@@ -1,7 +1,7 @@
 {
   "name": "nostalgorithm",
-  "version": "0.0.0",
-  "description": "remember the functions you call",
+  "version": "0.1.0",
+  "description": "create an audit trail of every method call.",
   "main": "index.js",
   "scripts": {
     "test": "mocha --reporter spec $(find . -path ./node_modules -prune -o -name '*.spec.js' -print)"

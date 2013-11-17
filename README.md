@@ -6,6 +6,8 @@ nostalgorithm
 
 create an audit trail of every method call
 
+		npm install nostalgorithm
+
 examples
 ========
 	var n = require('nostalgorithm');
