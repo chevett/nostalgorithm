@@ -28,7 +28,7 @@ examples
 	console.log(o.nostalgorithm.calls); => [
   		{name: 'myMethodOne', arguments: [], value: 5 },
   		{name: 'child.anotherMethod', arguments: [10], value: 20 },
-  		{name: 'myMethodTwo, arguments: [4], value: 9 }
+  		{name: 'myMethodTwo', arguments: [4], value: 9 }
 	] 
 
 	n.ignore(o);
