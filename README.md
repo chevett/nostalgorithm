@@ -47,6 +47,8 @@ how long did a method take to execute?
 	n.after(o, function(d){ 
 		d.end = new Date();
 		d.msg = date.name + ' took ' + (d.end - d.start) 'ms';
+	});
+	
 	o.myMethodOne();
 
 
