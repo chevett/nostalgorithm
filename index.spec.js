@@ -143,7 +143,6 @@ describe('nostalgorithm', function(){
 		myObj.method1(4);
 
 		expect(myObj.nostalgorithm).to.be.ok;
-		console.log(myObj.nostalgorithm.calls);
 		expect(myObj.nostalgorithm.calls).to.have.length.of(1);
 		expect(myObj.nostalgorithm.calls[0].start).to.be.a('date');
 	});
@@ -157,12 +156,11 @@ describe('nostalgorithm', function(){
 			data.start = new Date();
 		});
 		myObj.nostalgorithm.after(function(data){
-			data.time = data.start - new Date();
+			data.time = new Date() - data.start;
 		});
 		myObj.method1(4);
 
 		expect(myObj.nostalgorithm).to.be.ok;
-		console.log(myObj.nostalgorithm.calls);
 		expect(myObj.nostalgorithm.calls).to.have.length.of(1);
 		expect(myObj.nostalgorithm.calls[0].time).to.be.a('number');
 	});
