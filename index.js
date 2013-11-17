@@ -15,13 +15,25 @@ var _intercept = function(self, name, fn){
 			arguments: _slice.call(arguments)
 		};
 
+		self.nostalgorithm._beforeFunctions.forEach(function(fn){
+			fn.call(self, callInfo);
+		});
+
 		var result = callInfo.value = fn.apply(self, arguments);
 
 		if (_isPromise(result)){
 			result.done(function(v){
+				self.nostalgorithm._afterFunctions.forEach(function(fn){
+					fn.call(self, callInfo);
+				});
 				result = callInfo.value = v;
 			});
+		} else {
+			self.nostalgorithm._afterFunctions.forEach(function(fn){
+				fn.call(self, callInfo);
+			});
 		}
+
 
 		self.nostalgorithm.calls.push(callInfo);
 
@@ -42,6 +54,7 @@ function _replaceFunctions(o, fn){
 		if (typeof p !== 'function') return;
 
 		var self = this;
+		if (self.path && self.path[0] === 'nostalgorithm') return;
 
 		fn.call(this, p, function(newFunc){
 			var parent = _getParentObjectFromPath(o, self.path);
@@ -60,7 +73,15 @@ function _replaceFunctions(o, fn){
 
 var _watch = function(obj){
 	obj.nostalgorithm = obj.nostalgorithm || {
-		calls: []
+		_beforeFunctions: [],
+		_afterFunctions: [],
+		calls: [],
+		before: function(fn){
+			obj.nostalgorithm._beforeFunctions.push(fn);
+		},
+		after: function(fn){
+			obj.nostalgorithm._afterFunctions.push(fn);
+		}
 	};
 
 	obj = _replaceFunctions(obj, function(p, doReplace){
@@ -89,7 +110,28 @@ var _ignore = function(obj){
 	return obj;
 };
 
+var _before = function(obj, fn){
+	if (!obj) return;
+	if (!obj.nostalgorithm) {
+		obj = _watch(obj);
+	}
+
+	obj.nostalgorithm.before(fn);
+};
+
+var _after = function(obj, fn){
+	if (!obj) return;
+	if (!obj.nostalgorithm) {
+		obj = _watch(obj);
+	}
+
+	obj.nostalgorithm.after(fn);
+	
+};
+
 module.exports = {
 	watch: _watch,
-	ignore: _ignore
+	ignore: _ignore,
+	before: _before,
+	after: _after
 };

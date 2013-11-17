@@ -116,7 +116,7 @@ describe('nostalgorithm', function(){
 
 				setTimeout(function(){
 					d.resolve(666);
-				}, 500);
+				}, 50);
 
 				return d.promise;
 			}
@@ -130,5 +130,40 @@ describe('nostalgorithm', function(){
 			expect(myObj.nostalgorithm.calls[0].value).to.be.equal(666);
 			done();
 		});
+	});
+	it('should call before function', function(){
+
+		var myObj = {
+			method1: function(x){ return x*2; }
+		};
+		nostalgorithm.watch(myObj);
+		myObj.nostalgorithm.before(function(data){
+			data.start = new Date();
+		});
+		myObj.method1(4);
+
+		expect(myObj.nostalgorithm).to.be.ok;
+		console.log(myObj.nostalgorithm.calls);
+		expect(myObj.nostalgorithm.calls).to.have.length.of(1);
+		expect(myObj.nostalgorithm.calls[0].start).to.be.a('date');
+	});
+	it('should call after function', function(){
+
+		var myObj = {
+			method1: function(x){ return x*2; }
+		};
+		nostalgorithm.watch(myObj);
+		myObj.nostalgorithm.before(function(data){
+			data.start = new Date();
+		});
+		myObj.nostalgorithm.after(function(data){
+			data.time = data.start - new Date();
+		});
+		myObj.method1(4);
+
+		expect(myObj.nostalgorithm).to.be.ok;
+		console.log(myObj.nostalgorithm.calls);
+		expect(myObj.nostalgorithm.calls).to.have.length.of(1);
+		expect(myObj.nostalgorithm.calls[0].time).to.be.a('number');
 	});
 });
