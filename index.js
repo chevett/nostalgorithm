@@ -1,6 +1,9 @@
-var traverse = require('traverse');
+var merle = require('merle');
 var _slice = Array.prototype.slice;
-
+var IGNORED = {
+	nostalgorithm: true,
+	__nostalgorithmfunc: true
+};
 
 var _isPromise = function(v){
 	if (v && typeof v.then === 'function') return true; // i don't know if there is a right way to do this. halp!
@@ -34,41 +37,26 @@ var _intercept = function(self, name, fn){
 			});
 		}
 
-
 		self.nostalgorithm.calls.push(callInfo);
 
 		return result;
 	};
 };
 
-function _getParentObjectFromPath(o, path){
-	for (var i = 0; i<path.length-1; i++){
-		o = o[path[i]];
-	}
-
-	return o;
-}
-
 function _replaceFunctions(o, fn){
-	traverse(o).forEach(function(p){
-		if (typeof p !== 'function') return;
+	return merle(o, function(){
+		if (IGNORED[this.name]) return false;
+		if (typeof this.value !== 'function') return;
 
 		var self = this;
-		if (self.path && self.path[0] === 'nostalgorithm') return;
 
-		fn.call(this, p, function(newFunc){
-			var parent = _getParentObjectFromPath(o, self.path);
-
-			if (self.key){
-				parent[self.key] = newFunc;
-			} else { // when p===obj is the root, i.e. when the root is a function
-				o = newFunc;
-				o.nostalgorithm = p.nostalgorithm;
+		fn.call(this, this.value, function(newFunc){
+			if (self.isRoot){
+				newFunc.nostalgorithm = self.value.nostalgorithm;
 			}
+			self.value = newFunc;
 		});
 	});
-
-	return o;
 }
 
 var _watch = function(obj){
@@ -126,7 +114,6 @@ var _after = function(obj, fn){
 	}
 
 	obj.nostalgorithm.after(fn);
-	
 };
 
 module.exports = {

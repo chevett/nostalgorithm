@@ -1,12 +1,15 @@
 {
   "name": "nostalgorithm",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "create an audit trail of every method call.",
   "main": "index.js",
   "scripts": {
     "test": "mocha --reporter spec $(find . -path ./node_modules -prune -o -name '*.spec.js' -print)"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/chevett/nostalgorithm.git"
+  },
   "author": "mike chevett",
   "license": "MIT",
   "devDependencies": {
@@ -15,6 +18,16 @@
     "q": "~0.9.7"
   },
   "dependencies": {
-    "traverse": "~0.6.6"
+    "merle": "*"
+  },
+  "readmeFilename": "README.md",
+  "gitHead": "075f34fb0158707e92cb4199ed77d01706cd93d9",
+  "keywords": [
+    "audit",
+    "decorator",
+    "intercept"
+  ],
+  "bugs": {
+    "url": "https://github.com/chevett/nostalgorithm/issues"
   }
 }

@@ -13,9 +13,22 @@ describe('nostalgorithm', function(){
 	});
 	it('should track function name', function(){
 		var myObj = {
-			meth: function(){}
+			meth: function(){ return 'hey'; }
 		};
 
+		nostalgorithm.watch(myObj);
+		myObj.meth();
+
+		expect(myObj.nostalgorithm.calls).to.have.length.of(1);
+		var callInfo = myObj.nostalgorithm.calls[0];
+		expect(callInfo.name).to.be.equal('meth');
+	});
+	it('should track inherited function names', function(){
+		var myObj = {
+			meth: function(){ return 'hey'; }
+		};
+
+		myObj = Object.create(myObj);
 		nostalgorithm.watch(myObj);
 		myObj.meth();
 
