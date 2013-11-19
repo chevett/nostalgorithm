@@ -1,6 +1,9 @@
-var traverse = require('traverse');
+var merle = require('merle');
 var _slice = Array.prototype.slice;
-
+var IGNORED = {
+	nostalgorithm: true,
+	__nostalgorithmfunc: true
+};
 
 var _isPromise = function(v){
 	if (v && typeof v.then === 'function') return true; // i don't know if there is a right way to do this. halp!
@@ -50,17 +53,20 @@ function _getParentObjectFromPath(o, path){
 }
 
 function _replaceFunctions(o, fn){
-	traverse(o).forEach(function(p){
+	merle(o, function(p){
 		if (typeof p !== 'function') return;
 
 		var self = this;
-		if (self.path && self.path[0] === 'nostalgorithm') return;
+		//if (self.path && self.path[0] === 'nostalgorithm') return;
+		if (IGNORED[self.key]) return false;
+
+		console.log(this.path);
 
 		fn.call(this, p, function(newFunc){
 			var parent = _getParentObjectFromPath(o, self.path);
 
-			if (self.key){
-				parent[self.key] = newFunc;
+			if (self.name){
+				parent[self.name] = newFunc;
 			} else { // when p===obj is the root, i.e. when the root is a function
 				o = newFunc;
 				o.nostalgorithm = p.nostalgorithm;

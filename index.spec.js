@@ -142,7 +142,9 @@ describe('nostalgorithm', function(){
 		});
 		myObj.method1(4);
 
+		console.log('dsafdfasdf');
 		expect(myObj.nostalgorithm).to.be.ok;
+		console.log(myObj.nostalgorithm.calls);
 		expect(myObj.nostalgorithm.calls).to.have.length.of(1);
 		expect(myObj.nostalgorithm.calls[0].start).to.be.a('date');
 	});

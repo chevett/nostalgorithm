@@ -1,6 +1,6 @@
 {
   "name": "nostalgorithm",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "create an audit trail of every method call.",
   "main": "index.js",
   "scripts": {
@@ -15,6 +15,6 @@
     "q": "~0.9.7"
   },
   "dependencies": {
-    "traverse": "~0.6.6"
+    "merle": "0.0.1"
   }
 }
