@@ -53,23 +53,18 @@ function _getParentObjectFromPath(o, path){
 }
 
 function _replaceFunctions(o, fn){
-	merle(o, function(p){
-		if (typeof p !== 'function') return;
+	merle(o, function(){
+		if (IGNORED[this.name]) return false;
+		if (typeof this.value !== 'function') return;
 
 		var self = this;
-		//if (self.path && self.path[0] === 'nostalgorithm') return;
-		if (IGNORED[self.key]) return false;
 
-		console.log(this.path);
-
-		fn.call(this, p, function(newFunc){
-			var parent = _getParentObjectFromPath(o, self.path);
-
-			if (self.name){
-				parent[self.name] = newFunc;
-			} else { // when p===obj is the root, i.e. when the root is a function
-				o = newFunc;
-				o.nostalgorithm = p.nostalgorithm;
+		fn.call(this, this.value, function(newFunc){
+			var n = self.value.nostalgorithm;
+			self.value = newFunc;
+			
+			if (self.isRoot){
+				self.nostalgorithm = n;
 			}
 		});
 	});
