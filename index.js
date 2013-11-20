@@ -44,14 +44,6 @@ var _intercept = function(self, name, fn){
 	};
 };
 
-function _getParentObjectFromPath(o, path){
-	for (var i = 0; i<path.length-1; i++){
-		o = o[path[i]];
-	}
-
-	return o;
-}
-
 function _replaceFunctions(o, fn){
 	merle(o, function(){
 		if (IGNORED[this.name]) return false;
