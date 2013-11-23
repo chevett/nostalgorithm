@@ -40,18 +40,27 @@ examples
 how long did a method take to execute?
 -----------------
 	var n = require('nostalgorithm');
+	var q = require('q');
 	var o = {
-  		myMethodOne: function(){ return 5; },
+	    myMethodOne: function(){ return 5; },
+	    myMethodTwo: function(){ 
+			var d = q.defer();
+			setTimeout(function(){d.resolve('heloo');}, 32);
+			return d.promise; 
+		},
 	};
-
-	n.watch(o);
+	
 	n.before(o, function(d){ d.start = new Date(); });
 	n.after(o, function(d){ 
-		d.end = new Date();
-		d.msg = date.name + ' took ' + (d.end - d.start) 'ms';
+	    d.end = new Date();
+	    d.msg = d.name + ' took ' + (d.end - d.start) + 'ms';
 	});
 	
 	o.myMethodOne();
+	o.myMethodTwo();
+	
+	setTimeout(function(){
+		console.log(o.nostalgorithm.calls[0].msg); // prints 'myMethodOne took 0ms'
+		console.log(o.nostalgorithm.calls[1].msg); // prints 'myMethodTwo took 35ms'
+	}, 100);
 
-
-	console.log(o.nostalgorithm.calls[0].msg); // prints 'myMethodOne took 5ms'
