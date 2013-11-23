@@ -53,14 +53,14 @@ how long did a method take to execute?
 	n.before(o, function(d){ d.start = new Date(); });
 	n.after(o, function(d){ 
 	    d.end = new Date();
-	    d.msg = d.name + ' took ' + (d.end - d.start) + 'ms';
+	    console.log(d.name + ' took ' + (d.end - d.start) + 'ms');
 	});
 	
 	o.myMethodOne();
 	o.myMethodTwo();
 	
-	setTimeout(function(){
-		console.log(o.nostalgorithm.calls[0].msg); // prints 'myMethodOne took 0ms'
-		console.log(o.nostalgorithm.calls[1].msg); // prints 'myMethodTwo took 35ms'
-	}, 100);
+output:
+
+		myMethodOne took 0ms		
+		myMethodTwo took 35ms
 
