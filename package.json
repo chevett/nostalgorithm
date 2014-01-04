@@ -18,7 +18,7 @@
     "q": "~0.9.7"
   },
   "dependencies": {
-    "merle": "*"
+    "merle": ">=0.1.5"
   },
   "readmeFilename": "README.md",
   "gitHead": "075f34fb0158707e92cb4199ed77d01706cd93d9",
