@@ -1,6 +1,6 @@
 {
   "name": "nostalgorithm",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "create an audit trail of every method call.",
   "main": "index.js",
   "scripts": {
